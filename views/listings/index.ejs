@@ -1,0 +1,323 @@
+<% layout("layouts/bolilerplate.ejs") %>
+<head>
+  <style>
+  /* Grid container for listings */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Individual card styles */
+  .card {
+    width: 100%;
+    max-width: 400px; /* Increased card width */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background: #fff;
+  }
+  
+  .card:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Image styling - Increased size */
+  .card img {
+    width: 100%;
+    height: 300px; /* Increased height */
+    object-fit: cover; /* Ensures images look good */
+  }
+  
+  /* Card body styles */
+  .card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns text to the left */
+  }
+  
+  /* Card text styling */
+  .card-text {
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: left;
+    width: 100%;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      max-width: 90%;
+    }
+    .card img {
+      height: 250px; /* Adjusted for smaller screens */
+    }
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 20px; /* Space between cards */
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover;
+    border-radius: 10px;
+}
+.card-img-top {
+    width: 200px;  /* Set exact width */
+    height: 200px; /* Set exact height (same as width) */
+    object-fit: cover; /* Ensures proper cropping */
+    border-radius: 10px; /* Optional rounded corners */
+}
+
+
+.card-body {
+    padding: 10px;
+    font-size: 1rem;
+}
+@media (max-width: 1024px) {
+    .row {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .row {
+        grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
+    }
+}
+/* Filters Container */
+#filters {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Individual Filter */
+.filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Icons Styling */
+.filter i {
+    font-size: 20px; /* Smaller Icons */
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+/* Text Styling */
+.filter p {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    text-align: center;
+}
+
+/* Hover Effect with Underline */
+.filter:hover i,
+.filter:hover p {
+    color: #000;
+}
+
+.filter::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+}
+
+.filter:hover::after {
+    width: 100%;
+}
+
+/* Active State (Selected Filter) */
+.filter.active i,
+.filter.active p {
+    color: #000;
+    font-weight: bold;
+}
+
+.filter.active::after {
+    width: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #filters {
+        gap: 10px;
+        padding: 5px 10px;
+    }
+    .filter i {
+        font-size: 18px;
+    }
+    .filter p {
+        font-size: 10px;
+    }
+}
+
+
+
+
+</style>
+  
+</head>
+<body>
+ <div id="filters">
+  <div class="filter">
+    <div>    <i class="fa-solid fa-fire"></i></div>
+   
+    <p>Trending</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i>
+    </div>
+    
+    <p>Rooms</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain-city"></i>
+    </div>
+    
+    <p>Iconic cities</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain-city"></i>
+    </div>
+    
+    <p>Moutains</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-chess"></i>
+    </div>
+    
+    <p>Castles</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-umbrella-beach"></i>
+    </div>
+    
+    <p>Beachfront</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-water-ladder"></i>
+    </div>
+    
+    <p>OMG!</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-hippo"></i>
+    </div>
+    
+    <p>Islands</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-tree"></i>
+    </div>
+    
+    <p>Tree houses</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-campground"></i>
+    </div>
+    
+    <p>camping</p>
+
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-tractor"></i>
+    </div>
+    
+    <p>farms</p>
+   
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-house"></i>
+      </div>
+      
+      <p>farms</p>
+     
+      </div>
+
+
+  </div>
+  <div  class="filter">
+    <label for="">Search Destination</label>
+ 
+                      <form  role="search">
+                        <input type="search" placeholder="Search" aria-label="Search">
+                        <button type="submit">Search</button>
+                      </form>
+                    </div>
+
+ </div>
+
+
+  <div class="row">
+    <% for(let listing of allListings) { %>
+      <div class="card">
+        <a href="/listings/<%= listing._id %>">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
+        </a>
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing.title %></b><br>
+            &#8377; <%= listing.price.toLocaleString("en-IN") %>/ night
+          </p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+

@@ -1,0 +1,89 @@
+<% layout("layouts/bolilerplate.ejs") %>
+<head>
+  
+  <style>
+form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 2px solid #444;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Input and Textarea Styling */
+input[type="text"], input[type="number"], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input:focus, textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Button Styling */
+button {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #5a9bd5, #3c78b5);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  display: block;
+  margin: 15px auto 0;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #3c78b5, #5a9bd5);
+  transform: scale(1.05);
+}
+</style>
+
+</head>
+<body>
+ 
+
+  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+    <label for="title">Title:</label>
+    <input id="title" name="listing[title]" value="<%= listing.title %>" type="text" required />
+    <br /><br />
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="listing[description]" required><%= listing.description %></textarea>
+    <br /><br />
+
+    <label for="image">Image URL:</label>
+    <input id="image" name="listing[image]" value="<%= listing.image %>" type="text" required />
+    <br /><br />
+
+    <label for="price">Price (₹ per night):</label>
+    <input id="price" name="listing[price]" value="<%= listing.price %>" type="number" min="1" required />
+    <br /><br />
+
+    <label for="country">Country:</label>
+    <input id="country" name="listing[country]" value="<%= listing.country %>" type="text" required />
+    <br /><br />
+
+    <label for="location">Location:</label>
+    <input id="location" name="listing[location]" value="<%= listing.location %>" type="text" required />
+    <br /><br />
+
+    <button type="submit">Save Changes</button>
+  </form>
+</body>
