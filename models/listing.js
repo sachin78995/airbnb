@@ -13,10 +13,13 @@ const listingSchema = new mongoose.Schema({
     location: String,
     country: String, // Changed from array to string
     image: {
-        filename: String,
+        filename: {
+            type: String,
+            default: "lodge.png"
+        },
         url: {
             type: String,
-            default: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60"
+            default: "/images/lodge.png"
         }
     },
     reviews: [{

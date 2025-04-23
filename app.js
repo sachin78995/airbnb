@@ -36,11 +36,20 @@ main()
     console.log("connected to db");
   })
   .catch((err) => {
-    console.log(err);
+    console.log("MongoDB Connection Error:", err.message);
   });
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  try {
+    await mongoose.connect(dbUrl, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    console.log("MongoDB Connected Successfully!");
+  } catch (err) {
+    console.error("MongoDB Connection Error:", err);
+    process.exit(1);
+  }
 }
 
 app.set("view engine", "ejs");
@@ -149,7 +158,24 @@ app.get("/listings/:id/edit",isloggedIn, async (req, res) => {
 // Update route
 app.put("/listings/:id",isloggedIn, async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  const listing = await Listing.findById(id);
+  if (!listing) {
+    return res.status(404).send("Listing not found");
+  }
+  
+  // Update the listing with the new data
+  const updatedListing = await Listing.findByIdAndUpdate(
+    id,
+    { 
+      ...req.body.listing,
+      image: {
+        filename: req.body.listing.image.filename || listing.image.filename,
+        url: req.body.listing.image.url
+      }
+    },
+    { new: true }
+  );
+  
   res.redirect(`/listings/${id}`);
 });
 

@@ -1,181 +1,789 @@
 <% layout("layouts/bolilerplate.ejs") %>
 
-<body>
-    <h5 class="card-title"><%= listing.title %></h5>
-    <div class="card">
-        <img src="<%= listing.image.url %>" class="card-img-top show-image" alt="<%= listing.title %>">
-        <div class="card-body">
-            <h5 class="card-title">Details</h5>
-            <p class="card-text">&#8377; <%= listing.price.toLocaleString("en-IN") %> / night</p>
+<div class="listing-show-container">
+  <div class="listing-header-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="listing-title"><%= listing.title %></h1>
+          <div class="listing-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span><%= listing.location %>, <%= listing.country %></span>
+          </div>
         </div>
+        <div class="col-md-4 text-md-end">
+          <div class="listing-price">
+            $<%= listing.price %><span>/night</span>
+          </div>
+          <div class="listing-rating">
+            <i class="fas fa-star"></i>
+            <span><%= listing.rating %> (<%=listing.reviews.length%> reviews)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Listing Image and Information -->
+    <div class="image-gallery mb-4">
+      <div class="main-image">
+        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="img-fluid">
+        <div class="category-badge"><%= listing.category %></div>
+      </div>
     </div>
 
-    <ul class="listing-details">
-        <li><strong>Title:</strong> <%= listing.title %></li>
-        <li><strong>Description:</strong> <%= listing.description %></li>
-        <li><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString("en-IN") %> / night</li>
-        <li><strong>Location:</strong> <%= listing.location %></li>
-        <li><strong>Country:</strong> <%= listing.country %></li>
-    </ul>
-
-    <br>
-
-    <!-- Edit and Delete Buttons -->
-    <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn">Edit the Listing</a>
-
-    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-        <button type="submit" class="btn delete-btn">Delete this Listing</button>
-    </form>
-    <hr>
-    <div class="review-section">
-        <h4>Leave a Review</h4>
-        
-        <form action="/listings/<%= listing._id %>/review"  method="post" class="review-form needs-validation">
-            <!-- Star Rating -->
-            <label for="rating">Rating</label>
-            <div class="star-rating">
-                <input type="radio" name="review[rating]" id="star5" value="5"><label for="star5">&#9733;</label>
-                <input type="radio" name="review[rating]" id="star4" value="4"><label for="star4">&#9733;</label>
-                <input type="radio" name="review[rating]" id="star3" value="3"><label for="star3">&#9733;</label>
-                <input type="radio" name="review[rating]" id="star2" value="2"><label for="star2">&#9733;</label>
-                <input type="radio" name="review[rating]" id="star1" value="1"><label for="star1">&#9733;</label>
+    <div class="row">
+      <!-- Left Side: Listing Details -->
+      <div class="col-md-8">
+        <div class="card listing-details">
+          <div class="card-body">
+            <h3>About this place</h3>
+            <p class="listing-description"><%= listing.description %></p>
+            
+            <div class="listing-features">
+              <h4>What this place offers</h4>
+              <div class="features-grid">
+                <div class="feature-item">
+                  <i class="fas fa-wifi"></i>
+                  <span>WiFi</span>
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-car"></i>
+                  <span>Free parking</span>
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-swimming-pool"></i>
+                  <span>Pool</span>
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-wind"></i>
+                  <span>Air conditioning</span>
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-tv"></i>
+                  <span>TV</span>
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-utensils"></i>
+                  <span>Kitchen</span>
+                </div>
+              </div>
             </div>
-    
-            <!-- Comment Box -->
-            <label for="comment">Comment</label>
-            <textarea name="review[comment]" id="comment" placeholder="Write your review here..."></textarea>
-            <div class="invalid-feekback">Please add some comments for review</div>
-    
-            <!-- Submit Button -->
-            <button type="submit">Submit Review</button>
-        </form>
-        <hr>
-        <h4>All Reviews</h4>
-        <div class="reviews-container">
-           <% if (reviews.length > 0) { %>
-              <% reviews.forEach(review => { %>
-                 <div class="review-card">
-                    <div class="review-header">
-                       <h5 class="review-title"><%= review.title || "Untitled Review" %></h5>
-                       <p class="review-author">By: <%= review.author || "Anonymous" %></p>
-                    </div>
-                    <div class="review-body">
-                       <p class="review-rating">⭐ <%= review.rating || "No rating" %></p>
-                       <p class="review-comment"><%= review.comment || "No comment provided" %></p>
-                    </div>
-        
-                    <!-- Delete Review Button -->
-                    <form action="/listing/<%= listing._id %>/reviews/<%=review._id %>" method="POST">
-                       <button type="submit" class="delete-review-btn">Delete</button>
-                    </form>
-                 </div>
-              <% }); %>
-           <% } else { %>
-              <p class="no-reviews">No reviews yet.</p>
-           <% } %>
+            
+            <div class="owner-actions mt-4">
+              <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <form class="delete-form d-inline" action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-        
-        
+
+        <!-- Reviews Section -->
+        <div class="card mt-4 reviews-section">
+          <div class="card-body">
+            <h3 class="mb-4">
+              <i class="fas fa-comments"></i> Reviews
+              <span class="review-count">(<%= listing.reviews.length %>)</span>
+            </h3>
+
+            <div class="reviews-list">
+              <% if(reviews && reviews.length > 0) { %>
+                <% for(let review of reviews) { %>
+                  <div class="review-card">
+                    <div class="review-header">
+                      <div class="reviewer-info">
+                        <i class="fas fa-user-circle reviewer-avatar"></i>
+                        <div class="reviewer-name">Guest</div>
+                      </div>
+                      <div class="review-rating">
+                        <% for(let i = 0; i < review.rating; i++) { %>
+                          <i class="fas fa-star"></i>
+                        <% } %>
+                        <% for(let i = review.rating; i < 5; i++) { %>
+                          <i class="far fa-star"></i>
+                        <% } %>
+                      </div>
+                    </div>
+                    <div class="review-content">
+                      <%= review.comment %>
+                    </div>
+                    <div class="review-date">
+                      <%= new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    </div>
+                  </div>
+                <% } %>
+              <% } else { %>
+                <div class="no-reviews">
+                  <i class="far fa-comment-dots"></i>
+                  <p>No reviews yet. Be the first to leave a review!</p>
+                </div>
+              <% } %>
+            </div>
+
+            <!-- Add Review Form -->
+            <h4 class="mt-4">Leave a Review</h4>
+            <form action="/listings/<%= listing._id %>/review" method="POST" class="review-form">
+              <div class="mb-3">
+                <label for="rating" class="form-label">Rating</label>
+                <div class="rating-input">
+                  <i class="far fa-star rating-star" data-rating="1"></i>
+                  <i class="far fa-star rating-star" data-rating="2"></i>
+                  <i class="far fa-star rating-star" data-rating="3"></i>
+                  <i class="far fa-star rating-star" data-rating="4"></i>
+                  <i class="far fa-star rating-star" data-rating="5"></i>
+                  <input type="hidden" name="review[rating]" id="rating" value="5" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="comment" class="form-label">Your Review</label>
+                <textarea class="form-control" name="review[comment]" id="comment" rows="4" placeholder="Share your experience..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-paper-plane"></i> Submit Review
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Booking Box -->
+      <div class="col-md-4">
+        <div class="card booking-card sticky-top">
+          <div class="card-body">
+            <h4 class="mb-3">Book this place</h4>
+            <div class="price-info mb-3">
+              <span class="booking-price">$<%= listing.price %></span> / night
+            </div>
+            
+            <form class="booking-form">
+              <div class="mb-3">
+                <label for="checkin" class="form-label">Check-in</label>
+                <input type="date" class="form-control" id="checkin" min="<%= new Date().toISOString().split('T')[0] %>">
+              </div>
+              <div class="mb-3">
+                <label for="checkout" class="form-label">Check-out</label>
+                <input type="date" class="form-control" id="checkout" min="<%= new Date().toISOString().split('T')[0] %>">
+              </div>
+              <div class="mb-3">
+                <label for="guests" class="form-label">Guests</label>
+                <select class="form-select" id="guests">
+                  <option value="1">1 guest</option>
+                  <option value="2">2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                  <option value="5">5 guests</option>
+                </select>
+              </div>
+              
+              <div class="price-calculation">
+                <div class="price-row">
+                  <span>$<%= listing.price %> x <span id="nights-count">5</span> nights</span>
+                  <span id="total-nights">$<%= listing.price * 5 %></span>
+                </div>
+                <div class="price-row">
+                  <span>Cleaning fee</span>
+                  <span>$50</span>
+                </div>
+                <div class="price-row">
+                  <span>Service fee</span>
+                  <span>$<%= Math.round(listing.price * 5 * 0.1) %></span>
+                </div>
+                <div class="price-divider"></div>
+                <div class="price-row total">
+                  <span>Total</span>
+                  <span id="total-price">$<%= listing.price * 5 + 50 + Math.round(listing.price * 5 * 0.1) %></span>
+                </div>
+              </div>
+              
+              <button type="button" class="btn btn-primary book-btn">
+                <i class="fas fa-calendar-check"></i> Reserve
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
     
-    <style>
-        /* Center the content */
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
+    <!-- Map Section -->
+    <div class="map-section mt-5">
+      <h3><i class="fas fa-map-marked-alt"></i> Location</h3>
+      <div class="map-container">
+        <iframe 
+          width="100%" 
+          height="400" 
+          frameborder="0" 
+          style="border:0" 
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&q=<%= encodeURIComponent(listing.location + ',' + listing.country) %>" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+    
+    <!-- Similar Listings -->
+    <div class="similar-listings mt-5">
+      <h3>Similar places you may like</h3>
+      <div class="listings-carousel">
+        <div class="similar-listing">
+          <div class="similar-listing-img">
+            <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Similar listing">
+          </div>
+          <div class="similar-listing-content">
+            <h5>Luxury Treehouse</h5>
+            <div class="similar-price">$220/night</div>
+          </div>
+        </div>
+        <div class="similar-listing">
+          <div class="similar-listing-img">
+            <img src="https://images.unsplash.com/photo-1542718610-a1d656d1884c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Similar listing">
+          </div>
+          <div class="similar-listing-content">
+            <h5>Mountain Cabin</h5>
+            <div class="similar-price">$180/night</div>
+          </div>
+        </div>
+        <div class="similar-listing">
+          <div class="similar-listing-img">
+            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Similar listing">
+          </div>
+          <div class="similar-listing-content">
+            <h5>Beachfront Villa</h5>
+            <div class="similar-price">$350/night</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        h1 {
-            font-size: 26px;
-            margin-bottom: 20px;
-            color: #333;
-        }
+<style>
+  .listing-show-container {
+    margin-bottom: 50px;
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .listing-header-section {
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+  }
+  
+  .listing-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    animation: slideInLeft 0.8s ease-out;
+  }
+  
+  .listing-location {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideInLeft 1s ease-out;
+  }
+  
+  .listing-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    animation: slideInRight 0.8s ease-out;
+  }
+  
+  .listing-price span {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  .listing-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.1rem;
+    animation: slideInRight 1s ease-out;
+  }
+  
+  .listing-rating i {
+    color: #FFD700;
+  }
+  
+  /* Image Gallery */
+  .image-gallery {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .main-image {
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  
+  .main-image:hover img {
+    transform: scale(1.05);
+  }
+  
+  .category-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 500;
+    z-index: 2;
+  }
+  
+  /* Listing Details Card */
+  .listing-details, .reviews-section, .booking-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    animation: fadeInUp 1.2s ease-out;
+  }
+  
+  .listing-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  /* Features */
+  .listing-features {
+    margin-bottom: 30px;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .feature-item:hover {
+    background-color: #e9ecef;
+    transform: translateY(-3px);
+  }
+  
+  .feature-item i {
+    font-size: 1.2rem;
+    color: #f46565;
+  }
+  
+  /* Owner Actions */
+  .owner-actions .btn {
+    margin-right: 10px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .owner-actions .btn:hover {
+    transform: translateY(-3px);
+  }
+  
+  .delete-form {
+    display: inline;
+  }
+  
+  /* Reviews Section */
+  .reviews-section {
+    margin-top: 30px;
+  }
+  
+  .reviews-list {
+    margin-bottom: 30px;
+  }
+  
+  .review-card {
+    border-bottom: 1px solid #e9ecef;
+    padding: 20px 0;
+    animation: fadeInUp 0.4s ease-out;
+  }
+  
+  .review-card:last-child {
+    border-bottom: none;
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .reviewer-avatar {
+    font-size: 2rem;
+    color: #7daff1;
+  }
+  
+  .reviewer-name {
+    font-weight: 600;
+  }
+  
+  .review-rating {
+    color: #FFD700;
+  }
+  
+  .review-content {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  .review-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
+  
+  .no-reviews {
+    text-align: center;
+    padding: 30px 0;
+    color: #6c757d;
+  }
+  
+  .no-reviews i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #e9ecef;
+  }
+  
+  /* Review Form */
+  .review-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    animation: fadeInUp 1.4s ease-out;
+  }
+  
+  .rating-input {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+  }
+  
+  .rating-star {
+    cursor: pointer;
+    color: #e9ecef;
+    transition: all 0.2s ease;
+  }
+  
+  .rating-star.active, .rating-star:hover {
+    color: #FFD700;
+  }
+  
+  /* Booking Card */
+  .booking-card {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+  }
+  
+  .booking-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f46565;
+  }
+  
+  .price-calculation {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+  
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .price-row.total {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  
+  .price-divider {
+    height: 1px;
+    background-color: #dee2e6;
+    margin: 15px 0;
+  }
+  
+  .book-btn {
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .book-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Map Section */
+  .map-section {
+    animation: fadeInUp 1.6s ease-out;
+  }
+  
+  .map-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Similar Listings */
+  .similar-listings {
+    animation: fadeInUp 1.8s ease-out;
+  }
+  
+  .listings-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    margin: 20px 0;
+  }
+  
+  .similar-listing {
+    flex: 0 0 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .similar-listing:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .similar-listing-img {
+    height: 150px;
+    overflow: hidden;
+  }
+  
+  .similar-listing-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .similar-listing:hover .similar-listing-img img {
+    transform: scale(1.1);
+  }
+  
+  .similar-listing-content {
+    padding: 15px;
+  }
+  
+  .similar-listing-content h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .similar-price {
+    color: #f46565;
+    font-weight: 600;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .listing-title {
+      font-size: 2rem;
+    }
+    
+    .main-image {
+      height: 350px;
+    }
+    
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .booking-card {
+      position: static;
+      margin-bottom: 30px;
+    }
+    
+    .similar-listing {
+      flex: 0 0 200px;
+    }
+  }
+</style>
 
-        /* Card Styling */
-        .card {
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Rating star functionality
+    const ratingStars = document.querySelectorAll('.rating-star');
+    const ratingInput = document.getElementById('rating');
+    
+    // Set initial active stars
+    updateStars(5);
+    
+    ratingStars.forEach(star => {
+      star.addEventListener('click', function() {
+        const rating = this.getAttribute('data-rating');
+        ratingInput.value = rating;
+        updateStars(rating);
+      });
+    });
+    
+    function updateStars(rating) {
+      ratingStars.forEach(star => {
+        const starRating = star.getAttribute('data-rating');
+        if (starRating <= rating) {
+          star.classList.remove('far');
+          star.classList.add('fas');
+          star.classList.add('active');
+        } else {
+          star.classList.remove('fas');
+          star.classList.add('far');
+          star.classList.remove('active');
         }
-
-        .card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
+      });
+    }
+    
+    // Calculate booking price based on dates
+    const checkinInput = document.getElementById('checkin');
+    const checkoutInput = document.getElementById('checkout');
+    const nightsCount = document.getElementById('nights-count');
+    const totalNights = document.getElementById('total-nights');
+    const totalPrice = document.getElementById('total-price');
+    const pricePerNight = parseInt('<%= listing.price %>', 10);
+    
+    function updateBookingPrice() {
+      if (checkinInput.value && checkoutInput.value) {
+        const checkin = new Date(checkinInput.value);
+        const checkout = new Date(checkoutInput.value);
+        
+        // Calculate difference in days
+        const diffTime = checkout.getTime() - checkin.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays > 0) {
+          nightsCount.textContent = diffDays;
+          const nightsTotal = pricePerNight * diffDays;
+          totalNights.textContent = '$' + nightsTotal;
+          
+          const serviceFee = Math.round(nightsTotal * 0.1);
+          const total = nightsTotal + 50 + serviceFee;
+          totalPrice.textContent = '$' + total;
         }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            font-size: 18px;
-            color: #555;
-        }
-
-        /* Listing Details */
-        .listing-details {
-            list-style-type: none;
-            padding: 0;
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        .listing-details li {
-            padding: 10px 0;
-            font-size: 18px;
-            color: #333;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .listing-details li:last-child {
-            border-bottom: none;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .edit-btn {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background-color: #a71d2a;
-        }
-    </style>
-</body>
+      }
+    }
+    
+    checkinInput.addEventListener('change', function() {
+      // Update min date for checkout to be at least checkin date
+      const checkinDate = new Date(this.value);
+      checkinDate.setDate(checkinDate.getDate() + 1);
+      checkoutInput.min = checkinDate.toISOString().split('T')[0];
+      
+      // If checkout is before new checkin, update checkout
+      if (checkoutInput.value && new Date(checkoutInput.value) <= new Date(this.value)) {
+        checkoutInput.value = checkinDate.toISOString().split('T')[0];
+      }
+      
+      updateBookingPrice();
+    });
+    
+    checkoutInput.addEventListener('change', updateBookingPrice);
+    
+    // Book button click
+    document.querySelector('.book-btn').addEventListener('click', function() {
+      if (!checkinInput.value || !checkoutInput.value) {
+        alert('Please select check-in and check-out dates to book.');
+        return;
+      }
+      
+      alert('Booking successful! Thank you for choosing Wanderlust.');
+    });
+    
+    // Delete confirmation
+    document.querySelector('.delete-form').addEventListener('submit', function(e) {
+      if (!confirm('Are you sure you want to delete this listing? This action cannot be undone.')) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>

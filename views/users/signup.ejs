@@ -1,19 +1,101 @@
 <% layout("layouts/bolilerplate.ejs") %>
-<div class="row mt-3">
-    <div class="col-6 offset-3">
-        <form action="/signup" method="POST" class="needs-validation" novalidate>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        
-            <button type="submit">Sign Up</button>
-        </form>
-        
 
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Join Wanderlust</h1>
+            <p>Create your account and start exploring amazing places</p>
+        </div>
+
+        <% if(typeof error !== 'undefined') { %>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <%= error %>
+            </div>
+        <% } %>
+
+        <% if(typeof success !== 'undefined') { %>
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i>
+                <%= success %>
+            </div>
+        <% } %>
+
+        <form action="/signup" method="POST" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+                <i class="fas fa-user input-icon"></i>
+                <div class="invalid-feedback">Please choose a username.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+                <i class="fas fa-envelope input-icon"></i>
+                <div class="invalid-feedback">Please provide a valid email.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+                <i class="fas fa-lock input-icon"></i>
+                <div class="invalid-feedback">Please enter a password.</div>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/login">Login here</a>
+        </div>
     </div>
 </div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+// Password strength indicator
+const passwordInput = document.getElementById('password');
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    const strength = checkPasswordStrength(password);
+    updatePasswordStrengthIndicator(strength);
+});
+
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]+/)) strength++;
+    if (password.match(/[A-Z]+/)) strength++;
+    if (password.match(/[0-9]+/)) strength++;
+    if (password.match(/[^a-zA-Z0-9]+/)) strength++;
+    return strength;
+}
+
+function updatePasswordStrengthIndicator(strength) {
+    const input = document.getElementById('password');
+    input.style.borderColor = 
+        strength === 0 ? '#e1e1e1' :
+        strength === 1 ? '#ff4444' :
+        strength === 2 ? '#ffbb33' :
+        strength === 3 ? '#00C851' :
+        strength === 4 ? '#007E33' :
+        '#00C851';
+}
+</script>

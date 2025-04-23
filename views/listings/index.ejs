@@ -1,323 +1,479 @@
 <% layout("layouts/bolilerplate.ejs") %>
-<head>
-  <style>
-  /* Grid container for listings */
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  /* Individual card styles */
-  .card {
-    width: 100%;
-    max-width: 400px; /* Increased card width */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-    background: #fff;
-  }
-  
-  .card:hover {
-    transform: scale(1.03);
-  }
-  
-  /* Image styling - Increased size */
-  .card img {
-    width: 100%;
-    height: 300px; /* Increased height */
-    object-fit: cover; /* Ensures images look good */
-  }
-  
-  /* Card body styles */
-  .card-body {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Aligns text to the left */
-  }
-  
-  /* Card text styling */
-  .card-text {
-    font-size: 18px;
-    line-height: 1.5;
-    text-align: left;
-    width: 100%;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .row {
-      flex-direction: column;
-      align-items: center;
-    }
-    .card {
-      max-width: 90%;
-    }
-    .card img {
-      height: 250px; /* Adjusted for smaller screens */
-    }
-  }
-  .row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 20px; /* Space between cards */
-    padding: 20px;
-}
 
-.card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    text-align: center;
-    transition: transform 0.2s ease-in-out;
-}
-
-.card:hover {
-    transform: scale(1.05); /* Slight zoom effect */
-}
-
-.card-img-top {
-    width: 100%;
-    height: 200px; /* Fixed height for images */
-    object-fit: cover;
-    border-radius: 10px;
-}
-.card-img-top {
-    width: 200px;  /* Set exact width */
-    height: 200px; /* Set exact height (same as width) */
-    object-fit: cover; /* Ensures proper cropping */
-    border-radius: 10px; /* Optional rounded corners */
-}
-
-
-.card-body {
-    padding: 10px;
-    font-size: 1rem;
-}
-@media (max-width: 1024px) {
-    .row {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .row {
-        grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
-    }
-}
-/* Filters Container */
-#filters {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
-
-/* Individual Filter */
-.filter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    padding: 5px 10px;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-/* Icons Styling */
-.filter i {
-    font-size: 20px; /* Smaller Icons */
-    color: #666;
-    transition: color 0.3s ease;
-}
-
-/* Text Styling */
-.filter p {
-    margin-top: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #666;
-    text-align: center;
-}
-
-/* Hover Effect with Underline */
-.filter:hover i,
-.filter:hover p {
-    color: #000;
-}
-
-.filter::after {
-    content: "";
-    width: 0;
-    height: 2px;
-    background-color: #000;
-    position: absolute;
-    bottom: -3px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: width 0.3s ease-in-out;
-}
-
-.filter:hover::after {
-    width: 100%;
-}
-
-/* Active State (Selected Filter) */
-.filter.active i,
-.filter.active p {
-    color: #000;
-    font-weight: bold;
-}
-
-.filter.active::after {
-    width: 100%;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    #filters {
-        gap: 10px;
-        padding: 5px 10px;
-    }
-    .filter i {
-        font-size: 18px;
-    }
-    .filter p {
-        font-size: 10px;
-    }
-}
-
-
-
-
-</style>
-  
-</head>
-<body>
- <div id="filters">
-  <div class="filter">
-    <div>    <i class="fa-solid fa-fire"></i></div>
-   
-    <p>Trending</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-bed"></i>
+<div class="listings-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Find Your Next Adventure</h1>
+      <p>Discover unique places to stay around the world</p>
+      <div class="search-box">
+        <input type="text" placeholder="Search destinations..." class="search-input">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+      </div>
     </div>
-    
-    <p>Rooms</p>
-
   </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i>
-    </div>
-    
-    <p>Iconic cities</p>
 
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i>
-    </div>
-    
-    <p>Moutains</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-chess"></i>
-    </div>
-    
-    <p>Castles</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-umbrella-beach"></i>
-    </div>
-    
-    <p>Beachfront</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-water-ladder"></i>
-    </div>
-    
-    <p>OMG!</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-hippo"></i>
-    </div>
-    
-    <p>Islands</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-tree"></i>
-    </div>
-    
-    <p>Tree houses</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-campground"></i>
-    </div>
-    
-    <p>camping</p>
-
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-tractor"></i>
-    </div>
-    
-    <p>farms</p>
-   
+  <!-- Filters Section -->
+  <div id="filters">
+    <div class="filter active">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>All</p>
     </div>
     <div class="filter">
-      <div><i class="fa-solid fa-house"></i>
-      </div>
-      
-      <p>farms</p>
-     
-      </div>
-
-
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Iconic Cities</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountains</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-chess"></i></div>
+      <p>Castles</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beachfront</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-tree"></i></div>
+      <p>Unique Stays</p>
+    </div>
   </div>
-  <div  class="filter">
-    <label for="">Search Destination</label>
- 
-                      <form  role="search">
-                        <input type="search" placeholder="Search" aria-label="Search">
-                        <button type="submit">Search</button>
-                      </form>
-                    </div>
 
- </div>
-
-
-  <div class="row">
+  <!-- Listings Grid -->
+  <div class="listings-grid">
     <% for(let listing of allListings) { %>
-      <div class="card">
-        <a href="/listings/<%= listing._id %>">
-          <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
-        </a>
-        <div class="card-body">
-          <p class="card-text">
-            <b><%= listing.title %></b><br>
-            &#8377; <%= listing.price.toLocaleString("en-IN") %>/ night
-          </p>
+      <div class="listing-card" data-category="<%= listing.category %>">
+        <div class="listing-image">
+          <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+          <div class="listing-price">$<%= listing.price %> <span>/night</span></div>
+          <div class="listing-category"><%= listing.category %></div>
+        </div>
+        <div class="listing-content">
+          <div class="listing-header">
+            <h3 class="listing-title"><%= listing.title %></h3>
+            <div class="listing-rating">
+              <i class="fas fa-star"></i>
+              <span><%= listing.rating %></span>
+            </div>
+          </div>
+          <div class="listing-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span><%= listing.location %>, <%= listing.country %></span>
+          </div>
+          <p class="listing-description"><%= listing.description.substring(0, 100) %>...</p>
+          <div class="listing-footer">
+            <a href="/listings/<%= listing._id %>" class="view-details-btn">View Details</a>
+          </div>
         </div>
       </div>
     <% } %>
   </div>
-</body>
+</div>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    padding: 0 20px;
+    animation: fadeInDown 0.8s ease-out;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  .search-box {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    font-size: 1rem;
+  }
+
+  .search-btn {
+    background: #f46565;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .search-btn:hover {
+    background: #e05555;
+  }
+
+  /* Filters Section */
+  #filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+    white-space: nowrap;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 10px;
+  }
+
+  .filter div {
+    background-color: #f8f8f8;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .filter i {
+    font-size: 1.2rem;
+    color: #555;
+    transition: all 0.3s ease;
+  }
+
+  .filter p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+
+  .filter:hover div {
+    background-color: #f0f0f0;
+    transform: translateY(-5px);
+  }
+
+  .filter:hover i {
+    color: #222;
+  }
+
+  .filter:hover p {
+    color: #222;
+  }
+
+  .filter.active div {
+    background: linear-gradient(135deg, #7daff1, #f46565);
+  }
+
+  .filter.active i {
+    color: white;
+  }
+
+  .filter.active p {
+    color: #222;
+    font-weight: 600;
+  }
+
+  /* Listings Grid */
+  .listings-container {
+    padding: 0 20px 50px;
+  }
+
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  .listing-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .listing-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .listing-card:hover .listing-image img {
+    transform: scale(1.1);
+  }
+
+  .listing-price {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  .listing-price span {
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .listing-category {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    z-index: 1;
+  }
+
+  .listing-content {
+    padding: 20px;
+  }
+
+  .listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .listing-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+  }
+
+  .listing-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #f46565;
+    font-weight: 600;
+  }
+
+  .listing-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .listing-description {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+
+  .listing-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .view-details-btn {
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .view-details-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card Animation Delay for Staggered Effect */
+  .listing-card:nth-child(1) { animation-delay: 0.1s; }
+  .listing-card:nth-child(2) { animation-delay: 0.2s; }
+  .listing-card:nth-child(3) { animation-delay: 0.3s; }
+  .listing-card:nth-child(4) { animation-delay: 0.4s; }
+  .listing-card:nth-child(5) { animation-delay: 0.5s; }
+  .listing-card:nth-child(6) { animation-delay: 0.6s; }
+  .listing-card:nth-child(7) { animation-delay: 0.7s; }
+  .listing-card:nth-child(8) { animation-delay: 0.8s; }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.2rem;
+    }
+    
+    .listings-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    #filters {
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .filter div {
+      width: 40px;
+      height: 40px;
+    }
+
+    .filter i {
+      font-size: 1rem;
+    }
+
+    .filter p {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Filter functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const filters = document.querySelectorAll('.filter');
+    const listings = document.querySelectorAll('.listing-card');
+    
+    filters.forEach(filter => {
+      filter.addEventListener('click', function() {
+        // Remove active class from all filters
+        filters.forEach(f => f.classList.remove('active'));
+        // Add active class to clicked filter
+        this.classList.add('active');
+        
+        const category = this.querySelector('p').textContent;
+        
+        // Hide all listings with fade-out effect
+        listings.forEach(listing => {
+          listing.style.opacity = '0';
+          listing.style.transform = 'scale(0.95)';
+        });
+        
+        // Show matching listings with delay for animation
+        setTimeout(() => {
+          listings.forEach(listing => {
+            if (category === 'All') {
+              listing.style.display = 'block';
+              setTimeout(() => {
+                listing.style.opacity = '1';
+                listing.style.transform = 'scale(1)';
+              }, 50);
+            } else {
+              const listingCategory = listing.getAttribute('data-category');
+              if (listingCategory === category) {
+                listing.style.display = 'block';
+                setTimeout(() => {
+                  listing.style.opacity = '1';
+                  listing.style.transform = 'scale(1)';
+                }, 50);
+              } else {
+                listing.style.display = 'none';
+              }
+            }
+          });
+        }, 300);
+      });
+    });
+    
+    // Add transition properties to listing cards for animations
+    listings.forEach(listing => {
+      listing.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    });
+  });
+</script>
 

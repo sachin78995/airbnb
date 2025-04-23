@@ -1,82 +1,374 @@
 <% layout("layouts/bolilerplate.ejs") %>
-<head>
-    <style>
-        /* Style for input fields */
-        input[type="text"], input[type="url"], input[type="number"], textarea {
-            width: 100%; /* Make input fields take full width */
-            max-width: 500px; /* Set maximum width */
-            padding: 10px; /* Add padding */
-            border: 2px solid #333; /* Dark border */
-            border-radius: 5px; /* Rounded edges */
-            font-size: 16px; /* Increase font size */
-        }
 
-        /* Style for textarea */
-        textarea {
-            height: 100px; /* Increase textarea height */
-            resize: vertical; /* Allow vertical resizing */
-        }
+<div class="new-listing-container">
+  <div class="listing-header-section">
+    <div class="container">
+      <h1 class="form-title">Create a New Listing</h1>
+      <p class="form-subtitle">Share your amazing place with travelers around the world</p>
+    </div>
+  </div>
 
-        /* Style for form container */
-        form {
-            max-width: 600px; /* Center form with max width */
-            margin: auto; /* Center align */
-            padding: 20px;
-            border: 2px solid #555; /* Form border */
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-        }
+  <div class="container">
+    <div class="card form-card">
+      <div class="card-body">
+        <form action="/listings" method="POST" class="validated-form" novalidate>
+          <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+              <div class="section-title">
+                <i class="fas fa-info-circle"></i> Basic Information
+              </div>
 
-        /* Button Styling */
-        button {
-            padding: 10px 20px;
-            background-color:rgb(201, 63, 63);
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+              <!-- Title -->
+              <div class="mb-4 form-floating">
+                <input type="text" class="form-control" id="title" name="listing[title]" placeholder="Beautiful mountain cabin" required>
+                <label for="title">Title</label>
+                <div class="invalid-feedback">Please provide a title for your listing.</div>
+              </div>
 
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <h2>Create a New Listing</h2>
-    <form action="/listings" method="POST"  class="needs-validation">
+              <!-- Description -->
+              <div class="mb-4 form-floating">
+                <textarea class="form-control" id="description" name="listing[description]" placeholder="Describe your place" style="height: 150px" required></textarea>
+                <label for="description">Description</label>
+                <div class="invalid-feedback">Please provide a description of your listing.</div>
+              </div>
 
+              <!-- Price -->
+              <div class="mb-4 form-floating">
+                <input type="number" class="form-control" id="price" name="listing[price]" placeholder="Price per night" min="1" required>
+                <label for="price">Price ($ per night)</label>
+                <div class="invalid-feedback">Please provide a valid price (minimum $1).</div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6">
+              <div class="section-title">
+                <i class="fas fa-map-marker-alt"></i> Location Information
+              </div>
+
+              <!-- Location -->
+              <div class="mb-4 form-floating">
+                <input type="text" class="form-control" id="location" name="listing[location]" placeholder="Aspen" required>
+                <label for="location">Location (City)</label>
+                <div class="invalid-feedback">Please provide a location.</div>
+              </div>
+
+              <!-- Country -->
+              <div class="mb-4 form-floating">
+                <input type="text" class="form-control" id="country" name="listing[country]" placeholder="USA" required>
+                <label for="country">Country</label>
+                <div class="invalid-feedback">Please provide a country.</div>
+              </div>
+
+              <!-- Category -->
+              <div class="mb-4 form-floating">
+                <select class="form-select" id="category" name="listing[category]" required>
+                  <option value="" disabled selected>Select a category</option>
+                  <option value="Rooms">Rooms</option>
+                  <option value="Iconic Cities">Iconic Cities</option>
+                  <option value="Mountains">Mountains</option>
+                  <option value="Castles">Castles</option>
+                  <option value="Beachfront">Beachfront</option>
+                  <option value="Unique Stays">Unique Stays</option>
+                </select>
+                <label for="category">Category</label>
+                <div class="invalid-feedback">Please select a category.</div>
+              </div>
+
+              <!-- Image URL -->
+              <div class="mb-4 form-floating">
+                <input type="url" class="form-control" id="image" name="listing[image][url]" placeholder="https://example.com/image.jpg" required>
+                <label for="image">Image URL</label>
+                <div class="invalid-feedback">Please provide a valid image URL.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Section -->
+          <div class="image-preview-section mb-4">
+            <div class="section-title">
+              <i class="fas fa-image"></i> Image Preview
+            </div>
+            <div class="image-preview-container">
+              <div id="image-preview">
+                <div class="preview-placeholder">
+                  <i class="fas fa-image"></i>
+                  <p>Enter an image URL above to see a preview</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary create-btn">
+              <i class="fas fa-plus-circle me-2"></i> Create Listing
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .new-listing-container {
+    margin-bottom: 50px;
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .listing-header-section {
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    color: white;
+    padding: 40px 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+    text-align: center;
+  }
+  
+  .form-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    animation: fadeInDown 0.8s ease-out;
+  }
+  
+  .form-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    animation: fadeInDown 1s ease-out;
+  }
+  
+  .form-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    animation: fadeInUp 1s ease-out;
+    overflow: hidden;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .section-title i {
+    color: #7daff1;
+    margin-right: 8px;
+  }
+  
+  .form-floating {
+    margin-bottom: 20px;
+  }
+  
+  .form-floating > .form-control,
+  .form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+    transition: all 0.3s ease;
+  }
+  
+  .form-floating > textarea.form-control {
+    height: 150px;
+  }
+  
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #7daff1;
+    box-shadow: 0 0 0 0.25rem rgba(125, 175, 241, 0.25);
+  }
+  
+  /* Image Preview */
+  .image-preview-section {
+    margin-top: 20px;
+  }
+  
+  .image-preview-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  
+  #image-preview {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+  }
+  
+  #image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .preview-placeholder {
+    text-align: center;
+    color: #adb5bd;
+  }
+  
+  .preview-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Submit Button */
+  .create-btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    border: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .create-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form validation styling */
+  .form-control.is-invalid,
+  .form-select.is-invalid {
+    background-image: none;
+    padding-right: 12px;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .form-title {
+      font-size: 2rem;
+    }
     
-        <legend>Listing Details</legend>
+    .form-subtitle {
+      font-size: 1rem;
+    }
+    
+    #image-preview {
+      height: 200px;
+    }
+  }
+</style>
 
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="listing[title]" required maxlength="100" placeholder="Enter listing title" required         
-
-            <label for="description" >Description:</label>
-            <textarea id="description" name="listing[description]" required placeholder="Write a short description" required></textarea>
-            <br><br>
-
-            <label for="image">Image URL:</label>
-            <input type="url" id="image" name="listing[image]" required placeholder="Enter direct image URL (e.g., https://example.com/image.jpg)" />
-            <br><br>
-
-            <label for="price">Price (₹ per night):</label>
-            <input type="number" id="price" name="listing[price]" required min="1" placeholder="Enter price" required/>
-            <br><br>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="listing[location]" required placeholder="Enter city or area"required />
-            <br><br>
-
-            <label for="country">Country:</label>
-            <input type="text" id="country" name="listing[country]" required placeholder="Enter country" required />
-            <br><br>
-
-        </fieldset>
-
-        <button type="submit">Create Listing</button>
-    </form>
-</body>
+<script>
+  // Image Preview Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageUrlInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    
+    imageUrlInput.addEventListener('input', function() {
+      const imageUrl = this.value.trim();
+      
+      if (imageUrl) {
+        // Create image element
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        
+        // Handle load errors
+        img.onerror = function() {
+          imagePreview.innerHTML = `
+            <div class="preview-placeholder">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>Invalid image URL. Please provide a valid URL.</p>
+            </div>
+          `;
+        };
+        
+        // On successful load
+        img.onload = function() {
+          imagePreview.innerHTML = '';
+          imagePreview.appendChild(img);
+        };
+      } else {
+        // Empty input, show placeholder
+        imagePreview.innerHTML = `
+          <div class="preview-placeholder">
+            <i class="fas fa-image"></i>
+            <p>Enter an image URL above to see a preview</p>
+          </div>
+        `;
+      }
+    });
+    
+    // Form validation
+    const form = document.querySelector('.validated-form');
+    
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      
+      form.classList.add('was-validated');
+    });
+    
+    // Add animations to form elements on scroll
+    const formElements = document.querySelectorAll('.form-floating, .image-preview-section');
+    const animateElements = function() {
+      formElements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementPosition < windowHeight - 50) {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    };
+    
+    // Set initial state for animation
+    formElements.forEach(element => {
+      element.style.opacity = '0';
+      element.style.transform = 'translateY(20px)';
+      element.style.transition = 'all 0.5s ease-out';
+    });
+    
+    // Run on load and scroll
+    animateElements();
+    window.addEventListener('scroll', animateElements);
+  });
+</script>
 
