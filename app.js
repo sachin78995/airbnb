@@ -19,6 +19,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const user = require("./models/user.js");
 const Review = require("./models/review.js");
+const Contact = require("./models/contact.js");
+const GeneralContact = require("./models/generalContact.js");
 const flash = require("connect-flash");
 const {storage}=require("./cloudconfig.js");
 const MongoStore = require("connect-mongo");
@@ -100,6 +102,19 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.currUser=req.user;
   next();
+});
+
+// Make contact count available to all views
+app.use(async (req, res, next) => {
+  try {
+    const contactCount = await GeneralContact.countDocuments();
+    res.locals.contactCount = contactCount;
+    next();
+  } catch (err) {
+    console.error(err);
+    res.locals.contactCount = 0;
+    next();
+  }
 });
 
 app.get("/", isloggedIn,(req, res) => {
@@ -243,6 +258,53 @@ app.get("/logout",(req,res,next)=>{
   })
 
 })
+
+// Contact form submission route
+app.post("/listings/:id/contact", async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    const listingId = req.params.id;
+    
+    const contact = new Contact({
+      name,
+      email,
+      message,
+      listingId
+    });
+    
+    await contact.save();
+    
+    req.flash("success", "Your message has been sent successfully!");
+    res.redirect(`/listings/${listingId}`);
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Failed to send message. Please try again.");
+    res.redirect(`/listings/${req.params.id}`);
+  }
+});
+
+// General contact form submission route
+app.post("/contact", async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    
+    const contact = new GeneralContact({
+      name,
+      email,
+      subject,
+      message
+    });
+    
+    await contact.save();
+    
+    req.flash("success", "Your message has been sent successfully!");
+    res.redirect("/listings");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Failed to send message. Please try again.");
+    res.redirect("/listings");
+  }
+});
 
 // Error handler
 app.use((err, req, res, next) => {

@@ -208,6 +208,30 @@
           </div>
         </div>
       </div>
+
+      <!-- Right Side: Contact Form -->
+      <div class="col-md-4">
+        <div class="card contact-form-card">
+          <div class="card-body">
+            <h3>Contact Owner</h3>
+            <form action="/listings/<%= listing._id %>/contact" method="POST" class="contact-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Your Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- Map Section -->
@@ -689,6 +713,46 @@
     .similar-listing {
       flex: 0 0 200px;
     }
+  }
+
+  .contact-form-card {
+    position: sticky;
+    top: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-form-card h3 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .contact-form .form-label {
+    font-weight: 500;
+    color: #555;
+  }
+
+  .contact-form .form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+  }
+
+  .contact-form .form-control:focus {
+    border-color: #7daff1;
+    box-shadow: 0 0 0 0.2rem rgba(125, 175, 241, 0.25);
+  }
+
+  .contact-form .btn-primary {
+    background: linear-gradient(135deg, #7daff1, #f46565);
+    border: none;
+    padding: 12px;
+    font-weight: 600;
+    transition: transform 0.2s;
+  }
+
+  .contact-form .btn-primary:hover {
+    transform: translateY(-2px);
   }
 </style>
 
