@@ -3,8 +3,11 @@ const Listing = require("./models/listing");
 const Review = require("./models/review");
 const user = require("./models/user");
 
+// Load environment variables
+require('dotenv').config();
+
 // MongoDB connection
-const dbUrl = "mongodb+srv://sachinsankole6:3PwEgvfqb3azlGSP@cluster0.kbkpcxx.mongodb.net/wanderlust?retryWrites=true&w=majority";
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/airbnb";
 
 // Dummy data for listings
 const dummyListings = [

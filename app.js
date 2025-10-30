@@ -33,13 +33,6 @@ const {isloggedIn} = require("./middleware.js");
 
 
 const dbUrl=process.env.ATLASDB_URL;
-main()
-  .then(() => {
-    console.log("connected to db");
-  })
-  .catch((err) => {
-    console.log("MongoDB Connection Error:", err.message);
-  });
 
 async function main() {
   try {
@@ -48,11 +41,17 @@ async function main() {
       socketTimeoutMS: 45000,
     });
     console.log("MongoDB Connected Successfully!");
+    console.log("connected to db");
   } catch (err) {
     console.error("MongoDB Connection Error:", err);
     process.exit(1);
   }
 }
+
+// Start the connection
+main().catch((err) => {
+  console.log("MongoDB Connection Error:", err.message);
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -311,6 +310,7 @@ app.use((err, req, res, next) => {
   res.send("something went wrong");
 });
 
-app.listen(8080, () => {
-  console.log("server is started");
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
