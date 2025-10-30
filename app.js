@@ -1,7 +1,5 @@
-if(process.env.NODE_ENV!="production"){
-  require('dotenv').config();
-
-}
+// Load environment variables
+require('dotenv').config();
 
 
 
@@ -33,6 +31,8 @@ const {isloggedIn} = require("./middleware.js");
 
 
 const dbUrl=process.env.ATLASDB_URL;
+console.log("Database URL:", dbUrl);
+console.log("Secret:", process.env.SECRET);
 
 async function main() {
   try {
